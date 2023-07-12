@@ -17,15 +17,16 @@ export async function servisesAPI(data: DataForHandlers): Promise<APIresponse> {
 const api: Record<string, Function> = {};
 
 api.post = async (data: DataForHandlers): Promise<APIresponse> => {
-    const queryString = `INSERT INTO services (id, title, description, price, photo, isActive) VALUES (NULL, 'TITLE', 'DESCRIPTION', '5.53', '', '1');`
+    const title = 'ababa';
+    const queryString = `INSERT INTO services (id, title, description, price, photo, isActive) VALUES (NULL, '${title}', 'DESCRIPTION', '5.53', '', '1');`
 
     try {
-        
+        await data.dbConnection.query(queryString);
     } catch (error) {
-        
+        console.log(error)
     }
 
-    await data.dbConnection.query(queryString);
+    
 
     return {
         statusCode: 201,

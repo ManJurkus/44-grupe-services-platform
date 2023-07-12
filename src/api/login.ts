@@ -18,6 +18,7 @@ export async function loginAPI(data: DataForHandlers): Promise<APIresponse> {
 const api: Record<string, Function> = {};
 
 api.post = async (data: DataForHandlers): Promise<APIresponse> => {
+
     const { payload } = data;
     if (typeof payload.email !== 'string' || payload.email === '') {
         return {
@@ -91,6 +92,14 @@ api.post = async (data: DataForHandlers): Promise<APIresponse> => {
         // 'Secure',
         'SameSite=Strict',
     ];
+
+    const queryString = `INSERT INTO token (token, email, createdAt) VALUES ('${token}', '${payload.email}', current_timestamp());`
+
+    try {
+        await data.dbConnection.query(queryString);
+    } catch (error) {
+        console.log(error)
+    }
 
     return {
         statusCode: 201,
